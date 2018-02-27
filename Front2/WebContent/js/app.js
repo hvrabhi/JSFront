@@ -1,39 +1,37 @@
-/**
- * Angular Js module
- */
-var app=angular.module('app',['ngRoute', 'ngCookies'])
-app.config(function($routeProvider){
+var app=angular.module('myapp',['ngRoute','ngCookies'])
+app.config(function($routeProvider)
+{
 	$routeProvider
-	.when('/register',{
-		templateUrl:'views/registrationform.html',
-		controller:'UserController'
-	})
-	
-	.when('/login',{
-		templateUrl:'views/login.html',
-		controller:'UserController'
-	})
-	.otherwise({
-		templateUrl:'views/home.html'
-	})
+	.when('/Register', {
+        templateUrl : 'views/registration.html',
+        controller  : 'UserController'
+    })
+    .when('/Login', {
+    	templateUrl : 'views/login.html',
+        controller  : 'UserController'
+    })
+    .when('/EditUserProfile', {
+    	templateUrl : 'views/edituserprofile.html',
+        controller  : 'UserController'
+    })
+    .otherwise({
+    	templateUrl : 'views/home.html'
+    })
 })
-
-app.run(function($location, $rootScope,$cookieStore,UserService){
-	if($rootScope.loggedInUser==undefined)
-		$rootScope.loggedInUser=$cookieStore.get('currentuser')
-	$rootScope.logout=function(){
-		UserService.logout().then(
-				function(response){
-					delete $rootScope.loggedInUser;
-					$cookieStore.remove('currentuser')
-					$rootScope.message="Successfully loggedout"
-						$location.path('/login')
-				},function(response){
-					$rootScope.error=response.data
-					if(response.data==401)
-						$location.path('/login')
-				}
-				
-				)
-	}	
+app.run(function($location,$rootScope,$cookieStore,UserService){
+	if($rootScope.loggedInuser==undefined)
+		$rootScope.loggedInuser=$cookieStore.get('currentuser')
+		
+		$rootScope.logout=function(){
+		  UserService.logout().then(function(response){
+			  delete $rootScope.loggedInuser;
+			  $cookieStore.remove('currentuser')
+			  $rootScope.message="successfully loggedout!....."
+				  $location.path('/login');
+		  },function(response){
+			  $rootScope.error=response.data
+			  if(response.status==401)
+				  $location.path('/login')
+		  })
+	}
 })

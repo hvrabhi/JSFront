@@ -1,40 +1,53 @@
-/**
- * 
- * 
- */
-app.controller('UserController',function($scope,$rootScope,$location,UserService, $cookieStore){
-	$scope.registerUser=function(user){ 
-		UserService.registerUser(user).then(
-		function(response){
-			alert('Registered Successfully')
-			$location.path('/home')
+app.controller('UserController',function($rootScope,$scope,$location,UserService,$cookieStore){
+	
+	//console.log("controller")
+	$scope.register=function()
+	{	
+		console.log("registration")
+		UserService.registerUser($scope.user).then(function(response){
+			alert("Thank-You,Registered successfully")
+			$location.path("/home")			
 		},function(response){
 			$scope.error=response.data
 		})
-		
 	}
-	$scope.login=function(user){
-		
-		UserService.login(user).then(function(response){
-			$rootScope.loggedInUser=response.data
-			$location.path('/home')
+	$scope.login=function()
+	{
+		console.log("login")
+		UserService.login($scope.user).then(function(response){
+			alert("successfully logged in!")
+			console.log("success")
+			$rootScope.loggedInuser=response.data
+			$cookieStore.put('currentuser',response.data)
+			$location.path("/home")	
 		},function(response){
-			console.log('error')
-			$scope.error=response.data
-			$location.path('/login')
-		}
-		)
+			console.log("error")
+			$location.path("/login")	
+		})
 	}
-	$scope.logout=function(user){
-		
-		UserService.logout(user).then(function(response){
-			delete $rootScope.loggedInUser
-			$location.path('/home')
+	if($rootScope.loggedInuser!=undefined){
+		UserService.getUser().then(function(response){
+			$scope.user=response.data
+		},
+		function(response){
+			if(response.status==401)
+				$location.path("/login")
+		})
+	}
+	
+	$scope.updateUserProfile=function(user){
+		UserService.updateUserProfile(user).then(function(response){
+			alert("updated user profile successfully......!")
+			console.log("hello")
+			$rootScope.loggedInuser=response.data
+			console.log("how are you")
+			$cookieStore.put('currentuser',response.data)
+			$location.path("/home")	
 		},function(response){
-			console.log('error')
-			$scope.error=response.data
-			$location.path('/login')
-		}
-		)
+			if(response.status==401)
+				$location.path("/login")
+			else
+				$scope.error=response.data
+		})
 	}
 })

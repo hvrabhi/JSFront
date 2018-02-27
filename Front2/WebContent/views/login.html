@@ -1,11 +1,14 @@
-{{error.message}}
+<span style="color:red">{{error.message}}</span>
+<span>{{message}}</span>
 <form>
-      <h2 class="form-signin-heading">Please login</h2>
-      <input type="email" class="form-control" name="userName" placeholder="Email Address" required="" autofocus="" data-ng-model="user.email"/>
-      <input type="password" class="form-control" name="password" placeholder="Password" required="" data-ng-model="user.password" style="padding-top:10px;"/>     
-      <label class="checkbox">
-        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-      </label>
-      <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-click="login(user) ">Login</button>   
-     
+	<div class="form-group">
+		Enter Email-Id <input type="email" id="email"
+			data-ng-model="user.email" class="form-control">
+	</div>
+	<div class="form-group">
+		Enter Password <input type="password" data-ng-model="user.password"
+			class="form-control">
+	</div>
+	<button type="submit" class="btn btn-primary btn-lg login button"
+		data-ng-click="login()">Login</button>
 </form>
