@@ -14,7 +14,7 @@ app.factory('UserService',function($http){
 		return $http.post("http://localhost:9999/Middleware/login",user)
 	}
 	userService.logout=function(user){
-		return $http.post("http://localhost:9999/Middleware/logout",user)
+		return $http.put("http://localhost:9999/Middleware/logout",user)
 	}
 	return userService;
 })

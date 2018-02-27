@@ -2,7 +2,7 @@
  * 
  * 
  */
-app.controller('UserController',function($scope,$rootScope,$location,UserService){
+app.controller('UserController',function($scope,$rootScope,$location,UserService, $cookieStore){
 	$scope.registerUser=function(user){ 
 		UserService.registerUser(user).then(
 		function(response){
